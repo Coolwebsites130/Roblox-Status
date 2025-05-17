@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roblox Status</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e0e;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .status-box {
+      background: #1a1a1a;
+      border: 2px solid #444;
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+    }
+
+    .status {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .status.online {
+      color: #00ff88;
+    }
+
+    .status.offline {
+      color: #ff4444;
+    }
+
+    .info {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="status-box">
+    <h1>🛰 Roblox Server Status</h1>
+    <div id="status" class="status">Loading...</div>
+    <div class="info">Live data from Roblox's official status page.</div>
+  </div>
+
+  <script>
+    async function getRobloxStatus() {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/roblox-api/Roblox-Status-API/main/status.json");
+        const data = await res.json();
+        const statusDiv = document.getElementById("status");
+        if (data.status === "online") {
+          statusDiv.textContent = "✅ Roblox is Online";
+          statusDiv.classList.add("online");
+        } else {
+          statusDiv.textContent = "🚨 Roblox is Down!";
+          statusDiv.classList.add("offline");
+        }
+      } catch (err) {
+        const statusDiv = document.getElementById("status");
+        statusDiv.textContent = "⚠️ Error fetching status";
+        statusDiv.classList.add("offline");
+      }
+    }
+
+    getRobloxStatus();
+  </script>
+</body>
+</html>
